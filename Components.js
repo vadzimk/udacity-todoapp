@@ -37,10 +37,26 @@ class Todos extends React.Component{
 }
 
 class Goals extends React.Component{
+    addItem=(e)=>{
+        e.preventDefault();
+        const name = this.input.value;
+        this.input.value = "";
+        this.props.store.dispatch(addGoalAction(
+            {
+                id: generateId(),
+                name,
+            }
+        ))};
     render(){
         return (
             <div>
-                goals
+                <h4>Goals</h4>
+                <input
+                type="text"
+                placeholder="Add goal"
+                ref={input=>this.input=input}
+                />
+                <button onClick={this.addItem}>Add goal</button>
                 <List/>
             </div>
         );
@@ -49,11 +65,17 @@ class Goals extends React.Component{
 
 
 class App extends React.Component{
+    componentDidMount(){
+        const {store} = thi.props;
+        store.subscribe(()=>this.forceUpdate()); //rerender the App component and all its childern after the component mounts
+    }
+
     render(){
+        const {todos, goals} = this.props.store.getState();
         return(
             <div>
                 <Todos store={this.props.store}/>
-                <Goals/>
+                <Goals store={this.props.store}/>
             </div>
         );
     }

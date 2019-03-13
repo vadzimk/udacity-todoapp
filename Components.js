@@ -2,7 +2,13 @@
 const List=(props)=>{
     return(
         <ul>
-            <li>List</li>
+            {props.items.map((item)=>(
+                <li key={item.id}>
+                    <span>
+                        {item.name}
+                    </span>
+                </li>
+            ))}
         </ul>
     );
 };
@@ -23,6 +29,7 @@ class Todos extends React.Component{
     };
     render(){
         /*set the property of the class instance to input that gets the value of the dome element */
+
         return (
             <div>
                 <h4>Todo List</h4>
@@ -30,7 +37,8 @@ class Todos extends React.Component{
                 placeholder="Add todo"
                 ref={input=>this.input=input} />
                 <button onClick={this.addItem}>Add todo</button>
-                <List/>
+                <List items={this.props.todos}
+                />
             </div>
         );
     }
@@ -57,7 +65,7 @@ class Goals extends React.Component{
                 ref={input=>this.input=input}
                 />
                 <button onClick={this.addItem}>Add goal</button>
-                <List/>
+                <List items={this.props.goals}/>
             </div>
         );
     }
@@ -66,16 +74,17 @@ class Goals extends React.Component{
 
 class App extends React.Component{
     componentDidMount(){
-        const {store} = thi.props;
+        const {store} = this.props;
         store.subscribe(()=>this.forceUpdate()); //rerender the App component and all its childern after the component mounts
     }
 
     render(){
         const {todos, goals} = this.props.store.getState();
+
         return(
             <div>
-                <Todos store={this.props.store}/>
-                <Goals store={this.props.store}/>
+                <Todos todos={todos} store={this.props.store}/>
+                <Goals goals={goals} store={this.props.store}/>
             </div>
         );
     }

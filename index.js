@@ -163,14 +163,14 @@ const store = createStore(app, applyMiddleware(checker, logger));
 //     todo: {
 //         id:0,
 //         name:"learn redux",
-//         completed: false
+//         complete: false
 //     }
 // });
 //
 // store.dispatch(addTodoAction({
 //     id:0,
 //     name:"learn redux",
-//     completed: false
+//     complete: false
 // }));
 
 

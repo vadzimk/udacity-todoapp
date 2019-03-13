@@ -1,39 +1,39 @@
 console.log("connected");
 
-// Library code
-//returns store
-const createStore =(reducer)=>{
-    //1 the state
-    //2 get state
-    //3 listen changes on the state
-    //4 update state
+// // Library code - removed after importing redux in the index.html
+// //returns store
+// const createStore =(reducer)=>{
+//     //1 the state
+//     //2 get state
+//     //3 listen changes on the state
+//     //4 update state
+//
+//     let state;
+//     let listeners = [];
+//
+//     const getState =()=>state;
+//     const subscribe =(listener)=>{
+//         listeners.push(listener);
+//
+//         return ()=>{
+//             listeners.filter((l)=>l!==listener);
+//         };
+//     };
+//
+//     const dispatch =(action)=>{
+//         state = reducer(state, action);
+//         listeners.forEach((listener)=>listener());
+//     };
+//
+//     return {
+//         getState,
+//         subscribe,
+//         dispatch
+//     };
+// //now store will have 3 methods on it: getState, subscribe, dispatch
+// };
 
-    let state;
-    let listeners = [];
-
-    const getState =()=>state;
-    const subscribe =(listener)=>{
-        listeners.push(listener);
-
-        return ()=>{
-            listeners.filter((l)=>l!==listener);
-        };
-    };
-
-    const dispatch =(action)=>{
-        state = reducer(state, action);
-        listeners.forEach((listener)=>listener());
-    };
-
-    return {
-        getState,
-        subscribe,
-        dispatch
-    };
-//now store will have 3 methods on it: getState, subscribe, dispatch
-};
-
-
+const {createStore, combineReducers} = Redux;
 
 
 // App code
@@ -115,14 +115,22 @@ const goals =(state=[], action)=>{
 };
 
 //root reducer
-const app=(state={}, action)=>{
-    //returns new state
-    //now we want to have our state to be an object with 2 properties on it
-    return {
-        todos: todos(state.todos, action), //a reducer function that handles its part of state
-        goals: goals(state.goals, action),
-    };
-};
+// const app=(state={}, action)=>{
+//     //returns new state
+//     //now we want to have our state to be an object with 2 properties on it
+//     return {
+//         todos: todos(state.todos, action), //a reducer function that handles its part of state
+//         goals: goals(state.goals, action),
+//     };
+// };
+
+//Bulit in Redux
+const app = combineReducers(
+    {
+        todos,
+        goals
+    }
+);
 
 const store = createStore(app);
 

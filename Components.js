@@ -4,7 +4,11 @@ const List=(props)=>{
         <ul>
             {props.items.map((item)=>(
                 <li key={item.id}>
-                    <span>
+                    <span
+                        onClick={()=>props.toggle && props.toggle(item.id) //uses the shorthand featuer of the boolean expressiont to conditionally invoke the 2nd part if the 1st evaluates to true
+                    }
+                        style={{textDecoration: item.complete ? 'line-through' : "none"}}
+                    >
                         {item.name}
                     </span>
                     <button
@@ -34,6 +38,10 @@ class Todos extends React.Component{
     removeItem=(todo)=>{
         this.props.store.dispatch(removeTodoAction(todo.id));
     };
+
+    toggleItem = (id)=>{
+        this.props.store.dispatch(toggleTodoAction(id));
+    };
     render(){
         /*set the property of the class instance to input that gets the value of the dome element */
 
@@ -46,6 +54,7 @@ class Todos extends React.Component{
                 <button onClick={this.addItem}>Add todo</button>
                 <List items={this.props.todos}
                       remove={this.removeItem}
+                      toggle={this.toggleItem}
                 />
             </div>
         );

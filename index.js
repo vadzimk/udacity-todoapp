@@ -132,6 +132,14 @@ const app = combineReducers(
     }
 );
 
+function checkAndDispatch (store, action){
+    if(action.type==ADD_TODO && action.todo.name.toLowerCase().includes('bitcoin')){
+        return alert("no. no bitcoin");
+    }
+    return store.dispatch(action);
+}
+
+
 const store = createStore(app);
 
 // store.dispatch({
@@ -169,7 +177,7 @@ const addTodo=()=>{
     const input = document.getElementById("todo");
     const name = input.value;
     input.value = '';
-    store.dispatch(addTodoAction({
+    checkAndDispatch(store, addTodoAction({
         name,
         complete: false,
         id:generateId()
@@ -179,7 +187,7 @@ const addGoal=()=>{
     const input = document.getElementById("goal");
     const name = input.value;
     input.value = '';
-    store.dispatch(addGoalAction({
+    checkAndDispatch(store, addGoalAction({
         id:generateId(),
         name
     }));
@@ -201,7 +209,7 @@ const addTodoToDOM =(todo)=>{
     const text = document.createTextNode(todo.name);
 
     const removeBtn = createRemoveButton(()=>{
-        store.dispatch(removeTodoAction(todo.id));
+        checkAndDispatch(store, removeTodoAction(todo.id));
     });
 
     node.appendChild(text);
@@ -210,7 +218,7 @@ const addTodoToDOM =(todo)=>{
     document.getElementById("todos").appendChild(node);
     node.style.textDecoration = todo.complete===true?"line-through":"none";
     node.addEventListener("click", ()=>{
-        store.dispatch(toggleTodoAction(todo.id));
+        checkAndDispatch(store, toggleTodoAction(todo.id));
     });
 };
 const addGoalToDOM =(goal)=>{
@@ -218,7 +226,7 @@ const addGoalToDOM =(goal)=>{
     const text = document.createTextNode(goal.name);
 
     const removeBtn = createRemoveButton(()=>{
-        store.dispatch(removeGoalAction(goal.id));
+        checkAndDispatch(store, removeGoalAction(goal.id));
     });
 
     node.appendChild(text);

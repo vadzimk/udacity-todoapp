@@ -7,6 +7,9 @@ const List=(props)=>{
                     <span>
                         {item.name}
                     </span>
+                    <button
+                        onClick={()=>props.remove(item)}
+                    >X</button>
                 </li>
             ))}
         </ul>
@@ -27,6 +30,10 @@ class Todos extends React.Component{
             }
         ));
     };
+
+    removeItem=(todo)=>{
+        this.props.store.dispatch(removeTodoAction(todo.id));
+    };
     render(){
         /*set the property of the class instance to input that gets the value of the dome element */
 
@@ -38,6 +45,7 @@ class Todos extends React.Component{
                 ref={input=>this.input=input} />
                 <button onClick={this.addItem}>Add todo</button>
                 <List items={this.props.todos}
+                      remove={this.removeItem}
                 />
             </div>
         );
@@ -55,6 +63,10 @@ class Goals extends React.Component{
                 name,
             }
         ))};
+
+    removeItem = (goal)=>{
+        this.props.store.dispatch(removeGoalAction(goal.id))
+    };
     render(){
         return (
             <div>
@@ -65,7 +77,9 @@ class Goals extends React.Component{
                 ref={input=>this.input=input}
                 />
                 <button onClick={this.addItem}>Add goal</button>
-                <List items={this.props.goals}/>
+                <List items={this.props.goals}
+                      remove={this.removeItem}
+                />
             </div>
         );
     }

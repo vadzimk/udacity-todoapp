@@ -181,7 +181,7 @@ store.subscribe(()=>{
     document.getElementById("todos").innerHTML = "";
     goals.forEach(addGoalToDOM);
     todos.forEach(addTodoToDOM);
-    
+
 });
 
 function generateId(){

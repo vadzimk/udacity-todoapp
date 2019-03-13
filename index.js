@@ -144,8 +144,19 @@ const checker=(store)=>(next)=>(action)=>{
 
     };
 
+//new middleware
+//next is the next version of dispatch function after looping it in the applayMiddleware
+const logger =(store)=>(next)=>(action)=>{
+    console.group(action.type);
+    console.log("the action: ", action);
+    const result = next(action);
+    console.log("the new state is :", store.getState());
+    console.groupEnd();
+    return result;
+};
+
 //app is a root reducer
-const store = createStore(app, applyMiddleware(checker));
+const store = createStore(app, applyMiddleware(checker, logger));
 
 // store.dispatch({
 //     type: "ADD_TODO",
@@ -170,7 +181,7 @@ store.subscribe(()=>{
     document.getElementById("todos").innerHTML = "";
     goals.forEach(addGoalToDOM);
     todos.forEach(addTodoToDOM);
-    console.log(store.getState());
+    
 });
 
 function generateId(){
